@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Tabs, Tab, Row, Container } from 'react-bootstrap';
 import Notification from 'react-web-notification';
+import MyDay from './components/MyDay';
 
 const App = () => {
   const [ignore, setIgnore] = useState(false);
@@ -45,7 +46,7 @@ const App = () => {
             <Button onClick={handleButtonClick}>test</Button>
           </Tab>
           <Tab eventKey="myDay" title="My Day">
-            <div>my day</div>
+            <MyDay />
           </Tab>
           <Tab eventKey="routines" title="Routines">
             <div>routines</div>
