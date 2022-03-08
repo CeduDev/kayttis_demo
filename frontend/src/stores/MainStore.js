@@ -1,8 +1,36 @@
 import { makeAutoObservable } from 'mobx';
 import React, { createContext, useContext } from 'react';
 
+/*
+interface Break {
+  start: Date;
+  length: number;
+  description: string;
+}
+
+interface Routine {
+  title: string;
+  start: Date;
+  stop: Date;
+  breaks: Break[];
+}
+*/
+
 class MainStore {
-  first = '';
+  routines = [
+    {
+      title: '',
+      start: new Date(),
+      stop: new Date(),
+      breaks: [
+        {
+          start: new Date(),
+          length: 300, //in seconds, so 5 min
+          description: 'default desc',
+        },
+      ],
+    },
+  ];
 
   constructor() {
     makeAutoObservable(this);
@@ -10,6 +38,10 @@ class MainStore {
 
   setFirst = (string) => {
     this.first = string;
+  };
+
+  addRoutine = (routine) => {
+    this.routines = [...this.routines, routine];
   };
 }
 
