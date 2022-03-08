@@ -77,23 +77,6 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
     }
   }, [store.routines, title]);
 
-  useEffect(() => {
-    console.log(routine);
-    if (routine) {
-      setTitle(routine.title);
-
-      setStartTime(
-        `${pad(routine.start.getHours())}:${pad(routine.start.getMinutes())}`
-      );
-      setEndTime(
-        `${pad(routine.end.getHours())}:${pad(routine.end.getMinutes())}`
-      );
-      if (routine.breaks) setBreaks(routine.breaks);
-      setRoutine(null);
-      setShow(true);
-    }
-  }, [routine, setRoutine]);
-
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
@@ -159,8 +142,8 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
               </Button>
             </Row>
           </div>
-          {breaks.map((b) => (
-            <Col className="breakCol">
+          {breaks.map((b, idx) => (
+            <Col className="breakCol" key={idx}>
               <span>
                 {`${b.description}, ${pad(b.start.getHours())}:${pad(
                   b.start.getMinutes()

@@ -31,30 +31,7 @@ class MainStore {
       ],
     },
   ]; */
-  routines = [
-    {
-      title: 'Monday',
-      start: new Date(),
-      end: new Date(),
-      breaks: [
-        {
-          description: 'coffee',
-          start: new Date(),
-          end: new Date(),
-        },
-        {
-          description: 'lunch',
-          start: new Date(),
-          end: new Date(),
-        },
-        {
-          description: 'coffee',
-          start: new Date(),
-          end: new Date(),
-        },
-      ],
-    },
-  ];
+  routines = [];
 
   routineStarted /*: Routine | null */ = null;
 
