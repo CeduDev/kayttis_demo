@@ -70,6 +70,20 @@ class MainStore {
     this.routines = [...this.routines, routine];
   };
 
+  editRoutine = (title, newRoutine) => {
+    this.routines = this.routines.map((r) => {
+      if (r.title === title) {
+        return newRoutine;
+      }
+      return r;
+    });
+  };
+  deleteRoutine = (title) => {
+    this.routines = this.routines.filter((r) => {
+      return r.title !== title;
+    });
+  };
+
   setRoutineStarted = async (routine) => {
     this.routineStarted = routine;
   };

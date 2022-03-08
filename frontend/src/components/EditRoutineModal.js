@@ -1,44 +1,33 @@
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal, Row, Col, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 
-const AddRoutineModal = observer(({ routine, setRoutine }) => {
+const EditRoutineModal = observer(({ routine }) => {
+  const store = useMainStore();
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [title, setTitle] = useState('');
-  const [startTime, setStartTime] = useState('08:00');
-  const [endTime, setEndTime] = useState('16:00');
+  const pad = (toPad) => {
+    if (toPad < 10) {
+      return `0${toPad}`;
+    }
+    return toPad;
+  };
+
+  const [title, setTitle] = useState(routine.title);
+  const [startTime, setStartTime] = useState(
+    `${pad(routine.start.getHours())}:${pad(routine.start.getMinutes())}`
+  );
+  const [endTime, setEndTime] = useState(
+    `${pad(routine.end.getHours())}:${pad(routine.end.getMinutes())}`
+  );
 
   const [breakType, setBreakType] = useState('');
   const [breakStartTime, setBreakStartTime] = useState('');
   const [breakEndTime, setBreakEndTime] = useState('');
 
-  const [breaks, setBreaks] = useState([]);
-
-  const store = useMainStore();
-
-  const handleSubmit = () => {
-    if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
-      const start = startTime.split(':').map((x) => Number(x));
-      const end = endTime.split(':').map((x) => Number(x));
-      const startDate = new Date();
-      const endDate = new Date();
-      startDate.setHours(start[0], start[1]);
-      endDate.setHours(end[0], end[1]);
-      store.addRoutine({
-        title: title,
-        start: startDate,
-        end: endDate,
-        breaks: breaks,
-      });
-      setTitle('');
-      setStartTime('08:00');
-      setEndTime('16:00');
-      setShow(false);
-    }
-  };
+  const [breaks, setBreaks] = useState(routine.breaks);
 
   const handleAddBreak = () => {
     if (breakType !== '' && breakStartTime !== '' && breakEndTime !== '') {
@@ -62,46 +51,43 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
     }
   };
 
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
+  const handleSubmit = () => {
+    if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
+      const start = startTime.split(':').map((x) => Number(x));
+      const end = endTime.split(':').map((x) => Number(x));
+      const startDate = new Date();
+      const endDate = new Date();
+      startDate.setHours(start[0], start[1]);
+      endDate.setHours(end[0], end[1]);
+      store.editRoutine(routine.title, {
+        title: title,
+        start: startDate,
+        end: endDate,
+        breaks: breaks,
+      });
+
+      setShow(false);
     }
-    return toPad;
   };
 
   useEffect(() => {
-    if (store.routines.find((r) => r.title === title)) {
+    if (
+      store.routines.find((r) => r.title === title) &&
+      title !== routine.title
+    ) {
       setShowAlert(true);
     } else {
       setShowAlert(false);
     }
-  }, [store.routines, title]);
-
-  useEffect(() => {
-    console.log(routine);
-    if (routine) {
-      setTitle(routine.title);
-
-      setStartTime(
-        `${pad(routine.start.getHours())}:${pad(routine.start.getMinutes())}`
-      );
-      setEndTime(
-        `${pad(routine.end.getHours())}:${pad(routine.end.getMinutes())}`
-      );
-      if (routine.breaks) setBreaks(routine.breaks);
-      setRoutine(null);
-      setShow(true);
-    }
-  }, [routine, setRoutine]);
-
+  }, [routine.title, store.routines, title]);
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
-        Create new routine
+        Edit
       </Button>
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Create new routine</Modal.Title>
+          <Modal.Title>Edit routine</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <span>Routine name:</span>
@@ -161,24 +147,22 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
           </div>
           {breaks.map((b) => (
             <Col className="breakCol">
-              <span>
-                {`${b.description}, ${pad(b.start.getHours())}:${pad(
-                  b.start.getMinutes()
-                )}-${pad(b.end.getHours())}:${pad(b.end.getMinutes())}`}
-              </span>
+              {`${b.description}, starting: ${pad(b.start.getHours())}:${pad(
+                b.start.getMinutes()
+              )}, ending: ${pad(b.end.getHours())}:${pad(b.end.getMinutes())}`}
               <Button
                 onClick={() => {
                   setBreaks((temp) => temp.filter((br) => br !== b));
                 }}
               >
-                Remove
+                delete
               </Button>
             </Col>
           ))}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="success" onClick={handleSubmit}>
-            Add routine
+            Submit changes
           </Button>
         </Modal.Footer>
       </Modal>
@@ -186,4 +170,4 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
   );
 });
 
-export default AddRoutineModal;
+export default EditRoutineModal;

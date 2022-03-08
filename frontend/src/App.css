@@ -30,4 +30,15 @@ body {
   margin-top: 0.2rem;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.routineDiv {
+  border: 1px solid black;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.routineCol {
+  margin: auto;
 }
