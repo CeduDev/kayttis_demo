@@ -17,20 +17,21 @@ interface Routine {
 */
 
 class MainStore {
-  routines = [
+  /*routines = [
     {
       title: 'test',
       start: new Date(),
-      stop: new Date(),
+      end: new Date(),
       breaks: [
         {
-          start: new Date(),
-          length: 300, //in seconds, so 5 min
           description: 'default desc',
+          start: new Date(),
+          end: new Date, //in seconds, so 5 min
         },
       ],
     },
-  ];
+  ]; */
+  routines = [];
 
   routineStarted /*: Routine | null */ = null;
 

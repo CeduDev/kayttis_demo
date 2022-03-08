@@ -3,3 +3,31 @@ body {
     Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol';
 }
+
+.textInput {
+  width: 100%;
+}
+
+.addBreak {
+  border: 1px solid black;
+  border-radius: 0.5rem;
+}
+
+.addBreakButtonRow {
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0.2rem;
+}
+
+.addBreakButton {
+  width: 10rem;
+}
+
+.breakCol {
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+}
