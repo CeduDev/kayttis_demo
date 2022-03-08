@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs, Tab, Row, Container } from 'react-bootstrap';
 import Home from './components/Home';
 import MyDay from './components/MyDay';
+import Routines from './components/Routines';
 
 const App = () => {
   return (
@@ -18,7 +19,7 @@ const App = () => {
             <MyDay />
           </Tab>
           <Tab eventKey="routines" title="Routines">
-            <div>routines</div>
+            <Routines />
           </Tab>
           <Tab eventKey="stats" title="Stats">
             <div>stats</div>
