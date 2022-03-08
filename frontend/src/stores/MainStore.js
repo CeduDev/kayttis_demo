@@ -19,7 +19,7 @@ interface Routine {
 class MainStore {
   routines = [
     {
-      title: '',
+      title: 'test',
       start: new Date(),
       stop: new Date(),
       breaks: [
@@ -32,6 +32,8 @@ class MainStore {
     },
   ];
 
+  routineStarted /*: Routine | null */ = null;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -42,6 +44,14 @@ class MainStore {
 
   addRoutine = (routine) => {
     this.routines = [...this.routines, routine];
+  };
+
+  setRoutineStarted = async (routine) => {
+    this.routineStarted = routine;
+  };
+
+  clearRoutineStarted = () => {
+    this.routineStarted = null;
   };
 }
 
