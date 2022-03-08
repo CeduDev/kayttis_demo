@@ -1,39 +1,9 @@
-import React, { useState } from 'react';
-import { Button, Tabs, Tab, Row, Container } from 'react-bootstrap';
-import Notification from 'react-web-notification';
+import React from 'react';
+import { Tabs, Tab, Row, Container } from 'react-bootstrap';
+import Home from './components/Home';
 import MyDay from './components/MyDay';
 
 const App = () => {
-  const [ignore, setIgnore] = useState(false);
-  const [title, setTitle] = useState('');
-  const [options, setOptions] = useState({});
-
-  const handleButtonClick = () => {
-    if (ignore) {
-      return;
-    }
-    setTitle('Test');
-    setOptions({
-      tag: Date.now(),
-      body: `Test: ${Date.now()}`,
-      lang: 'eng',
-      dir: 'ltr',
-    });
-  };
-
-  const handlePermissionGranted = () => {
-    console.log('Permission Granted');
-    setIgnore(false);
-  };
-  const handlePermissionDenied = () => {
-    console.log('Permission Denied');
-    setIgnore(true);
-  };
-  const handleNotSupported = () => {
-    console.log('Web Notification not Supported');
-    setIgnore(true);
-  };
-
   return (
     <Container>
       <Row>
@@ -42,8 +12,7 @@ const App = () => {
       <Row>
         <Tabs defaultActiveKey="home" id="kakka" className="mb-3">
           <Tab eventKey="home" title="Home">
-            <div>home</div>
-            <Button onClick={handleButtonClick}>test</Button>
+            <Home />
           </Tab>
           <Tab eventKey="myDay" title="My Day">
             <MyDay />
@@ -55,16 +24,6 @@ const App = () => {
             <div>stats</div>
           </Tab>
         </Tabs>
-      </Row>
-      <Row>
-        <Notification
-          ignore={ignore}
-          title={title}
-          options={options}
-          notSupported={handleNotSupported}
-          onPermissionGranted={handlePermissionGranted}
-          onPermissionDenied={handlePermissionDenied}
-        />
       </Row>
     </Container>
   );
