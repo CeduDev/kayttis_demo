@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
+import AddRoutineModal from './AddRoutineModal';
 
 const MyDay = observer(() => {
   const [routineSelected, setRoutineSelected] = useState(null);
@@ -57,12 +58,7 @@ const MyDay = observer(() => {
           </InputGroup>
         </Col>
         <Col xs="auto" sm="auto">
-          <Button
-            onClick={() => console.log('add new')}
-            disabled={mainStore.routineStarted !== null}
-          >
-            Add new routine
-          </Button>
+          <AddRoutineModal />
         </Col>
       </Row>
       {mainStore.routineStarted === null && (

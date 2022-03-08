@@ -26,12 +26,35 @@ class MainStore {
         {
           description: 'default desc',
           start: new Date(),
-          end: new Date, //in seconds, so 5 min
+          end: new Date,
         },
       ],
     },
   ]; */
-  routines = [];
+  routines = [
+    {
+      title: 'Monday',
+      start: new Date(),
+      end: new Date(),
+      breaks: [
+        {
+          description: 'coffee',
+          start: new Date(),
+          end: new Date(),
+        },
+        {
+          description: 'lunch',
+          start: new Date(),
+          end: new Date(),
+        },
+        {
+          description: 'coffee',
+          start: new Date(),
+          end: new Date(),
+        },
+      ],
+    },
+  ];
 
   routineStarted /*: Routine | null */ = null;
 

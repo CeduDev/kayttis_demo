@@ -75,7 +75,8 @@ const Home = () => {
       </Row>
       <Row>
         <p>
-          Today it's a sunny {todaysDay}, maybe try out this cool{' '}
+          Today it's a <Emoji symbol="☀️" label="sun" /> {todaysDay}, maybe try
+          out this cool{' '}
           <a
             href="https://www.themuse.com/advice/work-from-home-productivity-schedule"
             target="_blank"
