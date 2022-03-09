@@ -16,7 +16,8 @@ if(!process.env.SESSION_SECRET) {
 }
 const pgSession = require('connect-pg-simple')(session);
 
-const frontendPath = __dirname.slice(0, -12) + "/frontend"
+const frontendPath = __dirname.slice(0, -4) + "/frontend"
+console.log(frontendPath)
 const app = express();
 
 app.disable('x-powered-by');
@@ -32,7 +33,7 @@ app.use(
     store: new pgSession({
       pool: pool,
     }),
-    secret: process.env.SESSION_SECRET, // todoo
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days

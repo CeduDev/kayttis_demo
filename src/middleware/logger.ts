@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
 const logger = (req: Request, res: Response, next: NextFunction) => {
-    if(req.originalUrl.includes("static")) {
+    if(!req.originalUrl.includes("api") && false) {
         return next()
     }
     const today = new Date()
