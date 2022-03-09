@@ -47,7 +47,6 @@ const postRegister = async (
 };
 
 const getLogout = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.session);
   req.session.destroy(() => {}); // todoo
   res.status(200).json({ message: 'Successfully logged out' });
 };
