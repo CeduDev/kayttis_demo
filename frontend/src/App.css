@@ -1,38 +1,44 @@
-.App {
-  text-align: center;
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol';
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.textInput {
+  width: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.addBreak {
+  border: 1px solid black;
+  border-radius: 0.5rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.addBreakButtonRow {
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
+  padding: 0.2rem;
+}
+
+.addBreakButton {
+  width: 10rem;
+}
+
+.breakCol {
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.routineDiv {
+  border: 1px solid black;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.routineCol {
+  margin: auto;
 }
