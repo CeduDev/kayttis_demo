@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "kayttis-demo",
+    "new": "habit-house1"
+  },
+  "targets": {}
+}
