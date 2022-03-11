@@ -8,6 +8,9 @@ const EditRoutineModal = observer(({ routine }) => {
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
+  const [breakAlertMessage, setBreakAlertMessage] = useState('')
+
+
   const pad = (toPad) => {
     if (toPad < 10) {
       return `0${toPad}`;
@@ -31,6 +34,7 @@ const EditRoutineModal = observer(({ routine }) => {
 
   const handleAddBreak = () => {
     if (breakType !== '' && breakStartTime !== '' && breakEndTime !== '') {
+      setBreakAlertMessage('')
       const start = breakStartTime.split(':').map((x) => Number(x));
       const end = breakEndTime.split(':').map((x) => Number(x));
       const startDate = new Date();
@@ -50,6 +54,17 @@ const EditRoutineModal = observer(({ routine }) => {
       setBreakType('');
       setBreakStartTime('');
       setBreakEndTime('');
+    } else {
+      if (breakType === '') {
+        setBreakAlertMessage('Type missing')
+
+      } else if (breakStartTime === '') {
+        setBreakAlertMessage('Start time missing');
+
+      } else {
+        setBreakAlertMessage('End time missing')
+        
+      }
     }
   };
 
@@ -146,6 +161,8 @@ const EditRoutineModal = observer(({ routine }) => {
                 Add Break
               </Button>
             </Row>
+            {breakAlertMessage !== '' && <Alert className='mb-1' variant='danger'>{breakAlertMessage}</Alert>}
+
           </div>
           {breaks.map((b) => (
             <Col className="breakCol">
