@@ -37,14 +37,16 @@ const EditRoutineModal = observer(({ routine }) => {
       const endDate = new Date();
       startDate.setHours(start[0], start[1]);
       endDate.setHours(end[0], end[1]);
-      setBreaks((breaks) => [
-        ...breaks,
-        {
-          description: breakType,
-          start: startDate,
-          end: endDate,
-        },
-      ]);
+      setBreaks((breaks) =>
+        [
+          ...breaks,
+          {
+            description: breakType,
+            start: startDate,
+            end: endDate,
+          },
+        ].sort((a, b) => a.start - b.start)
+      );
       setBreakType('');
       setBreakStartTime('');
       setBreakEndTime('');
