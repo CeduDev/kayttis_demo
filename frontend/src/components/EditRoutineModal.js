@@ -87,7 +87,7 @@ const EditRoutineModal = observer(({ routine }) => {
       setShow(false);
     } else {
       if (title === '') {
-        setAlertMessage('title missing')
+        setAlertMessage('Routine name missing')
       } else if (startTime === '') {
         setAlertMessage('Start time missing');
       } else {

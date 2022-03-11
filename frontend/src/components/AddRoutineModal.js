@@ -44,7 +44,7 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       setShow(false);
     } else {
       if (title === '') {
-        setAlertMessage('title missing')
+        setAlertMessage('Routine name missing')
       } else if (startTime === '') {
         setAlertMessage('Start time missing');
       } else {
@@ -170,7 +170,7 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
                 Add Break
               </Button>
             </Row>
-            {breakAlertMessage !== '' && <Alert variant='danger'>breakAlertMessage</Alert>}
+            {breakAlertMessage !== '' && <Alert variant='danger'>{breakAlertMessage}</Alert>}
           </div>
           {breaks.map((b, idx) => (
             <Col className="breakCol" key={idx}>
