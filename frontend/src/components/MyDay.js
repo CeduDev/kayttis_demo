@@ -12,6 +12,7 @@ import {
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import AddRoutineModal from './AddRoutineModal';
+import Emoji from './Emoji';
 
 const MyDay = observer(() => {
   const [routineSelected, setRoutineSelected] = useState(null);
@@ -106,21 +107,39 @@ const MyDay = observer(() => {
                   {mainStore.routineStarted.breaks.map((b, idx) => {
                     const d = new Date();
                     return (
-                      <li
-                        key={idx}
-                        className={
-                          b.end < d
-                            ? 'break-end'
-                            : b.end > d && b.start < d
-                            ? 'break-ongoing'
-                            : ''
-                        }
-                      >
-                        {`${b.description}, ${pad(b.start.getHours())}:${pad(
-                          b.start.getMinutes()
-                        )}-${pad(b.end.getHours())}:${pad(b.end.getMinutes())}${
-                          b.end > d && b.start < d ? ' (ongoing)' : ''
-                        }`}
+                      <li key={idx}>
+                        <span
+                          className={
+                            b.end < d
+                              ? 'break-end'
+                              : b.end > d && b.start < d
+                              ? 'break-ongoing'
+                              : ''
+                          }
+                        >
+                          {`${b.description}, ${pad(b.start.getHours())}:${pad(
+                            b.start.getMinutes()
+                          )}-${pad(b.end.getHours())}:${pad(
+                            b.end.getMinutes()
+                          )}`}
+                        </span>
+                        {b.end > d && b.start < d ? (
+                          <>
+                            {' '}
+                            <span className="break-ongoing">
+                              (ongoing)
+                            </span>{' '}
+                            <Emoji symbol="😎" label="sunglasses_guy" />
+                          </>
+                        ) : (
+                          ''
+                        )}
+                        {b.end < d && (
+                          <>
+                            {' '}
+                            <Emoji symbol="✅" label="checkmark" />
+                          </>
+                        )}
                       </li>
                     );
                   })}
