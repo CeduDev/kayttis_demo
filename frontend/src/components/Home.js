@@ -69,8 +69,8 @@ const Home = () => {
       </Row>
       <Row>
         <p>
-          Continuous logins: <strong>10 days</strong>, which is longer than 60%
-          of the average user <Emoji symbol="💪" label="strong" />
+          Continuous logins: <strong>10 days</strong>, which is more than 60% of
+          users <Emoji symbol="💪" label="strong" />
         </p>
       </Row>
       <Row>

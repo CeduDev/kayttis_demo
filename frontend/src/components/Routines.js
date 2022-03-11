@@ -26,12 +26,12 @@ const Routines = observer(() => {
                 <h1>{routine.title}</h1>
               </Col>
               <Col className="routineCol">
-                <h3>{`starting: ${pad(routine.start.getHours())}:${pad(
+                <h3>{`Starting: ${pad(routine.start.getHours())}:${pad(
                   routine.start.getMinutes()
                 )}`}</h3>
               </Col>
               <Col className="routineCol">
-                <h3>{`ending: ${pad(routine.end.getHours())}:${pad(
+                <h3>{`Ending: ${pad(routine.end.getHours())}:${pad(
                   routine.end.getMinutes()
                 )}`}</h3>
               </Col>
@@ -50,7 +50,7 @@ const Routines = observer(() => {
             {routine.breaks.length > 0 && (
               <>
                 <Row>
-                  <h4>breaks: </h4>
+                  <h4>Breaks: </h4>
                 </Row>
                 <Row>
                   <ol>
