@@ -70,7 +70,7 @@ const Home = () => {
       <Row>
         <p>
           Continuous logins: <strong>10 days</strong>, which is more than 60% of
-          users <Emoji symbol="💪" label="strong" />
+          users in your team <Emoji symbol="💪" label="strong" />.
         </p>
       </Row>
       <Row>

@@ -3,6 +3,7 @@ import { Tabs, Tab, Row, Container } from 'react-bootstrap';
 import Home from './components/Home';
 import MyDay from './components/MyDay';
 import Routines from './components/Routines';
+import Stats from './components/Stats';
 import { useMainStore } from './stores/MainStore';
 
 const App = () => {
@@ -58,7 +59,7 @@ const App = () => {
             <Routines />
           </Tab>
           <Tab eventKey="stats" title="Stats">
-            <div>stats</div>
+            <Stats />
           </Tab>
         </Tabs>
       </Row>

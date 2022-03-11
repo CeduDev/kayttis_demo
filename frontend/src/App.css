@@ -51,3 +51,12 @@ body {
   font-weight: bold;
   font-style: italic;
 }
+
+.stats-div {
+  display: flex;
+  justify-content: center;
+}
+
+.stats-image {
+  max-width: 50vw;
+}
