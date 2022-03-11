@@ -29,6 +29,13 @@ const MyDay = observer(() => {
     mainStore.clearRoutineStarted();
   };
 
+  const pad = (toPad) => {
+    if (toPad < 10) {
+      return `0${toPad}`;
+    }
+    return toPad;
+  };
+
   const mainStore = useMainStore();
 
   return (
@@ -92,7 +99,33 @@ const MyDay = observer(() => {
           </Row>
           <Row>
             <Alert variant="info">
-              Ongoing routine: {mainStore.routineStarted.title}
+              Ongoing routine <strong>{mainStore.routineStarted.title}</strong>{' '}
+              with the following breaks:
+              {mainStore.routineStarted.breaks.length > 0 && (
+                <ol>
+                  {mainStore.routineStarted.breaks.map((b, idx) => {
+                    const d = new Date();
+                    return (
+                      <li
+                        key={idx}
+                        className={
+                          b.end < d
+                            ? 'break-end'
+                            : b.end > d && b.start < d
+                            ? 'break-ongoing'
+                            : ''
+                        }
+                      >
+                        {`${b.description}, ${pad(b.start.getHours())}:${pad(
+                          b.start.getMinutes()
+                        )}-${pad(b.end.getHours())}:${pad(b.end.getMinutes())}${
+                          b.end > d && b.start < d ? ' (ongoing)' : ''
+                        }`}
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
             </Alert>
           </Row>
         </>

@@ -42,3 +42,12 @@ body {
 .routineCol {
   margin: auto;
 }
+
+.break-end {
+  text-decoration: line-through;
+}
+
+.break-ongoing {
+  font-weight: bold;
+  font-style: italic;
+}
