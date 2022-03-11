@@ -18,11 +18,14 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
   const [breaks, setBreaks] = useState([]);
 
   const [breakAlertMessage, setBreakAlertMessage] = useState('')
+  const [alertMessage, setAlertMessage] = useState('')
+
 
   const store = useMainStore();
 
   const handleSubmit = () => {
     if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
+      setAlertMessage('')
       const start = startTime.split(':').map((x) => Number(x));
       const end = endTime.split(':').map((x) => Number(x));
       const startDate = new Date();
@@ -39,6 +42,14 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       setStartTime('08:00');
       setEndTime('16:00');
       setShow(false);
+    } else {
+      if (title === '') {
+        setAlertMessage('title missing')
+      } else if (startTime === '') {
+        setAlertMessage('Start time missing');
+      } else {
+        setAlertMessage('End time missing')
+      }
     }
   };
 
@@ -178,11 +189,13 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
             </Col>
           ))}
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer style={{padding: '0rem'}}className='me-2'>
+          
           <Button variant="success" onClick={handleSubmit}>
             Add routine
           </Button>
         </Modal.Footer>
+        {alertMessage !== '' && <Alert className='ms-2 me-2 mb-1'variant='danger'>{alertMessage}</Alert>}
       </Modal>
     </>
   );

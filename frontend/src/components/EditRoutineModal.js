@@ -9,7 +9,7 @@ const EditRoutineModal = observer(({ routine }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const [breakAlertMessage, setBreakAlertMessage] = useState('')
-
+  const [alertMessage, setAlertMessage] = useState('')
 
   const pad = (toPad) => {
     if (toPad < 10) {
@@ -70,6 +70,7 @@ const EditRoutineModal = observer(({ routine }) => {
 
   const handleSubmit = () => {
     if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
+      setAlertMessage('')
       const start = startTime.split(':').map((x) => Number(x));
       const end = endTime.split(':').map((x) => Number(x));
       const startDate = new Date();
@@ -84,6 +85,14 @@ const EditRoutineModal = observer(({ routine }) => {
       });
 
       setShow(false);
+    } else {
+      if (title === '') {
+        setAlertMessage('title missing')
+      } else if (startTime === '') {
+        setAlertMessage('Start time missing');
+      } else {
+        setAlertMessage('End time missing')
+      }
     }
   };
 
@@ -184,6 +193,7 @@ const EditRoutineModal = observer(({ routine }) => {
             Submit changes
           </Button>
         </Modal.Footer>
+        {alertMessage !== '' && <Alert className='ms-2 me-2 mb-1'variant='danger'>{alertMessage}</Alert>}
       </Modal>
     </>
   );
