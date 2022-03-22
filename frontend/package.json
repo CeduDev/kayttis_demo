@@ -34,7 +34,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "https://habithouse.herokuapp.com",
+  "proxy": "http://localhost:3001",
   "browserslist": {
     "production": [
       ">0.2%",
