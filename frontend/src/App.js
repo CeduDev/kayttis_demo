@@ -101,9 +101,6 @@ const App = () => {
                   <Tab eventKey="home" title="Home">
                     <Home />
                   </Tab>
-                  <Tab eventKey="myDay" title="My Day">
-                    <MyDay />
-                  </Tab>
                   <Tab eventKey="routines" title="Routines">
                     <Routines />
                   </Tab>
