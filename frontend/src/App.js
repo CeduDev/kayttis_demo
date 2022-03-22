@@ -14,14 +14,17 @@ const App = () => {
   const store = useMainStore();
   const history = useHistory();
   const [user, setUser] = useState(false);
+  const [showView, setShowView] = useState(0);
 
   useEffect(() => {
+    setShowView(0);
     const getAuth = async () => {
       try {
         await checkAuth();
       } catch (e) {
         history.push('/login');
       }
+      setShowView(1);
     };
 
     getAuth();
@@ -72,41 +75,50 @@ const App = () => {
 
   return (
     <Container>
-      <Row>
-        <h1>
-          Habit House {user && <Button onClick={handleLogout}>Logout</Button>}
-        </h1>
-      </Row>
-      <Switch>
-        <Route exact path="/login">
-          <Login history={history} setUser={setUser} />
-        </Route>
-        <Route exact path="/register">
-          <Register history={history} />
-        </Route>
-        <Route exact path="/">
+      {showView === 0 ? (
+        <div className="flex top-level-component">
+          <h2 className="align-self-center text-align-center">Loading...</h2>
+        </div>
+      ) : (
+        <>
           <Row>
-            <Tabs defaultActiveKey="home" id="kakka" className="mb-3">
-              <Tab eventKey="home" title="Home">
-                <Home />
-              </Tab>
-              <Tab eventKey="myDay" title="My Day">
-                <MyDay />
-              </Tab>
-              <Tab eventKey="routines" title="Routines">
-                <Routines />
-              </Tab>
-            </Tabs>
+            <h1>
+              Habit House{' '}
+              {user && <Button onClick={handleLogout}>Logout</Button>}
+            </h1>
           </Row>
-        </Route>
-        <Route>
-          <div className="flex top-level-component">
-            <h2 className="align-self-center text-align-center">
-              Error 404: Page not found
-            </h2>
-          </div>
-        </Route>
-      </Switch>
+          <Switch>
+            <Route exact path="/login">
+              <Login history={history} setUser={setUser} />
+            </Route>
+            <Route exact path="/register">
+              <Register history={history} />
+            </Route>
+            <Route exact path="/">
+              <Row>
+                <Tabs defaultActiveKey="home" id="kakka" className="mb-3">
+                  <Tab eventKey="home" title="Home">
+                    <Home />
+                  </Tab>
+                  <Tab eventKey="myDay" title="My Day">
+                    <MyDay />
+                  </Tab>
+                  <Tab eventKey="routines" title="Routines">
+                    <Routines />
+                  </Tab>
+                </Tabs>
+              </Row>
+            </Route>
+            <Route>
+              <div className="flex top-level-component">
+                <h2 className="align-self-center text-align-center">
+                  Error 404: Page not found
+                </h2>
+              </div>
+            </Route>
+          </Switch>
+        </>
+      )}
     </Container>
   );
 };
