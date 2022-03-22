@@ -21,6 +21,7 @@ const App = () => {
     const getAuth = async () => {
       try {
         await checkAuth();
+        setUser(true);
       } catch (e) {
         history.push('/login');
       }
