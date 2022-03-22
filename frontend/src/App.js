@@ -32,8 +32,8 @@ const App = () => {
   }, [history, user]);
 
   useEffect(() => {
-    const startDate = new Date();
     const endDate = new Date();
+    const startDate = new Date();
 
     let brakes = ['', '', ''];
 
