@@ -86,3 +86,28 @@ body {
 .text-align-center {
   text-align: center;
 }
+
+.test-notification-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.test-notification-col {
+  max-width: min-content;
+}
+
+.test-notification-button {
+  white-space: nowrap;
+}
+
+.tool-tip {
+  margin: 0;
+  border-radius: 50%;
+  width: 38px;
+  font-size: 1.5rem;
+  padding: 0;
+}
+
+.tool-tip-info {
+  font-size: 1.1rem;
+}

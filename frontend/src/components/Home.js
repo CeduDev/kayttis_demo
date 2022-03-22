@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Button, Col } from 'react-bootstrap';
+import {
+  Container,
+  Row,
+  Button,
+  Col,
+  OverlayTrigger,
+  Tooltip,
+} from 'react-bootstrap';
 import Notification from 'react-web-notification';
 import Emoji from './Emoji';
 import Stats from './Stats';
@@ -87,9 +94,14 @@ const Home = () => {
           </a>
         </p>
       </Row>
-      <Row>
-        <Col>
-          <Button onClick={handleButtonClick}>Test Notifications</Button>
+      <Row className="test-notification-row mb-1">
+        <Col className="test-notification-col">
+          <Button
+            onClick={handleButtonClick}
+            className="test-notification-button"
+          >
+            Test Notifications
+          </Button>
           <Notification
             ignore={ignore}
             title={title}
@@ -98,6 +110,23 @@ const Home = () => {
             onPermissionGranted={handlePermissionGranted}
             onPermissionDenied={handlePermissionDenied}
           />
+        </Col>
+        <Col className="ps-0">
+          <OverlayTrigger
+            placement="bottom"
+            overlay={(props) => (
+              <Tooltip {...props}>
+                <span className="tool-tip-info">
+                  If notifications aren’t working, make sure that you have
+                  allowed them in your computer settings
+                </span>
+              </Tooltip>
+            )}
+          >
+            <Button variant="outline-success" className="tool-tip">
+              ?
+            </Button>
+          </OverlayTrigger>
         </Col>
       </Row>
       <Stats />
