@@ -65,3 +65,24 @@ body {
   max-width: auto;
   max-height: 100%;
 }
+
+.flex {
+  display: flex;
+}
+
+.top-level-component {
+  min-height: 100vh !important;
+  align-items: start;
+  justify-items: center;
+}
+
+.align-self-center {
+  align-self: center !important;
+}
+.width-100 {
+  min-width: 100vw;
+}
+
+.text-align-center {
+  text-align: center;
+}
