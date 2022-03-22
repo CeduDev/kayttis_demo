@@ -58,9 +58,6 @@ const App = () => {
           <Tab eventKey="routines" title="Routines">
             <Routines />
           </Tab>
-          <Tab eventKey="stats" title="Stats">
-            <Stats />
-          </Tab>
         </Tabs>
       </Row>
     </Container>

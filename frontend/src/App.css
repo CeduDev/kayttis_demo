@@ -16,11 +16,16 @@ body {
 .addBreakButtonRow {
   display: flex;
   flex-direction: row-reverse;
+  justify-content: space-between;
   padding: 0.2rem;
+  width: 100%;
 }
 
 .addBreakButton {
   width: 10rem;
+}
+.dropdown {
+  max-width: min-content;
 }
 
 .breakCol {
@@ -54,9 +59,9 @@ body {
 
 .stats-div {
   display: flex;
-  justify-content: center;
+  height: 70vh;
 }
-
 .stats-image {
-  max-width: 50vw;
+  max-width: auto;
+  max-height: 100%;
 }

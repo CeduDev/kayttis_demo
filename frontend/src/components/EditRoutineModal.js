@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Row, Col, Alert } from 'react-bootstrap';
+import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 
 const EditRoutineModal = observer(({ routine }) => {
@@ -8,8 +8,8 @@ const EditRoutineModal = observer(({ routine }) => {
   const [show, setShow] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [breakAlertMessage, setBreakAlertMessage] = useState('')
-  const [alertMessage, setAlertMessage] = useState('')
+  const [breakAlertMessage, setBreakAlertMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
 
   const pad = (toPad) => {
     if (toPad < 10) {
@@ -34,7 +34,7 @@ const EditRoutineModal = observer(({ routine }) => {
 
   const handleAddBreak = () => {
     if (breakType !== '' && breakStartTime !== '' && breakEndTime !== '') {
-      setBreakAlertMessage('')
+      setBreakAlertMessage('');
       const start = breakStartTime.split(':').map((x) => Number(x));
       const end = breakEndTime.split(':').map((x) => Number(x));
       const startDate = new Date();
@@ -56,21 +56,18 @@ const EditRoutineModal = observer(({ routine }) => {
       setBreakEndTime('');
     } else {
       if (breakType === '') {
-        setBreakAlertMessage('Type missing')
-
+        setBreakAlertMessage('Type missing');
       } else if (breakStartTime === '') {
         setBreakAlertMessage('Start time missing');
-
       } else {
-        setBreakAlertMessage('End time missing')
-        
+        setBreakAlertMessage('End time missing');
       }
     }
   };
 
   const handleSubmit = () => {
     if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
-      setAlertMessage('')
+      setAlertMessage('');
       const start = startTime.split(':').map((x) => Number(x));
       const end = endTime.split(':').map((x) => Number(x));
       const startDate = new Date();
@@ -87,11 +84,11 @@ const EditRoutineModal = observer(({ routine }) => {
       setShow(false);
     } else {
       if (title === '') {
-        setAlertMessage('Routine name missing')
+        setAlertMessage('Routine name missing');
       } else if (startTime === '') {
         setAlertMessage('Start time missing');
       } else {
-        setAlertMessage('End time missing')
+        setAlertMessage('End time missing');
       }
     }
   };
@@ -106,6 +103,25 @@ const EditRoutineModal = observer(({ routine }) => {
       setShowAlert(false);
     }
   }, [routine.title, store.routines, title]);
+
+  const defaultBreaks = [
+    {
+      description: 'coffee break',
+      start: '09:30',
+      end: '09:45',
+    },
+    {
+      description: 'lunch',
+      start: '12:00',
+      end: '12:30',
+    },
+    {
+      description: 'walk',
+      start: '14:00',
+      end: '14:30',
+    },
+  ];
+
   return (
     <>
       <Button variant="primary" onClick={() => setShow(true)}>
@@ -165,13 +181,34 @@ const EditRoutineModal = observer(({ routine }) => {
               onChange={(event) => setBreakEndTime(event.target.value)}
             ></input>
             <br />
-            <Row style={{ width: '100%' }} className="addBreakButtonRow">
+            <Row className="addBreakButtonRow">
               <Button className="addBreakButton" onClick={handleAddBreak}>
                 Add Break
               </Button>
+              <Dropdown>
+                <Dropdown.Toggle>Default breaks</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {defaultBreaks.map((b) => {
+                    return (
+                      <Dropdown.Item
+                        onClick={() => {
+                          setBreakType(b.description);
+                          setBreakStartTime(b.start);
+                          setBreakEndTime(b.end);
+                        }}
+                      >
+                        {b.description}: {b.start}-{b.end}
+                      </Dropdown.Item>
+                    );
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
             </Row>
-            {breakAlertMessage !== '' && <Alert className='mb-1' variant='danger'>{breakAlertMessage}</Alert>}
-
+            {breakAlertMessage !== '' && (
+              <Alert className="mb-1" variant="danger">
+                {breakAlertMessage}
+              </Alert>
+            )}
           </div>
           {breaks.map((b) => (
             <Col className="breakCol">
@@ -193,7 +230,11 @@ const EditRoutineModal = observer(({ routine }) => {
             Submit changes
           </Button>
         </Modal.Footer>
-        {alertMessage !== '' && <Alert className='ms-2 me-2 mb-1'variant='danger'>{alertMessage}</Alert>}
+        {alertMessage !== '' && (
+          <Alert className="ms-2 me-2 mb-1" variant="danger">
+            {alertMessage}
+          </Alert>
+        )}
       </Modal>
     </>
   );
