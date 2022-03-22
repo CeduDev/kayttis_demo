@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Row, Button, Col } from 'react-bootstrap';
 import Notification from 'react-web-notification';
 import Emoji from './Emoji';
+import Stats from './Stats';
 
 const Home = () => {
   const [ignore, setIgnore] = useState(false);
@@ -99,6 +100,7 @@ const Home = () => {
           />
         </Col>
       </Row>
+      <Stats />
     </Container>
   );
 };
