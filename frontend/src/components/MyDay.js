@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
@@ -7,6 +7,7 @@ import { getRoutines } from '../services/getRoutines';
 import { parseISOString } from '../utils/dates';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
+  const [showView, setShowView] = useState(-1);
   const mainStore = useMainStore();
 
   useEffect(() => {
@@ -37,8 +38,10 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
 
           mainStore.addRoutine(routine);
         });
+        setShowView(1);
       } catch (e) {
         e.response ? console.log(e.response) : console.log(e);
+        setShowView(0);
       }
     };
 
@@ -60,6 +63,21 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
     }
     return toPad;
   };
+  if (showView === -1)
+    return (
+      <div className="flex top-level-component">
+        <h2 className="align-self-center text-align-center">Loading...</h2>
+      </div>
+    );
+
+  if (showView === 0)
+    return (
+      <div className="flex top-level-component">
+        <h2 className="align-self-center text-align-center">
+          Errors occured, please try again!
+        </h2>
+      </div>
+    );
 
   return (
     <Container>
