@@ -56,10 +56,15 @@ class MainStore {
       return r;
     });
   };
+
   deleteRoutine = (title) => {
     this.routines = this.routines.filter((r) => {
       return r.title !== title;
     });
+  };
+
+  deleteAllRoutines = async () => {
+    this.routines = [];
   };
 
   setRoutineStarted = async (routine) => {
