@@ -32,19 +32,22 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       const endDate = new Date();
       startDate.setHours(start[0], start[1]);
       endDate.setHours(end[0], end[1]);
+
       const routine = {
         title: title,
         start: startDate,
         end: endDate,
         breaks: breaks,
       };
-      store.addRoutine(routine);
+
       setTitle('');
       setStartTime('08:00');
       setEndTime('16:00');
       setShow(false);
+
       try {
         await addRoutine({ routine: routine });
+        store.changeRefreshUseEffect();
       } catch (e) {
         console.log(e.response);
       }

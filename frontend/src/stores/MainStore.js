@@ -35,10 +35,15 @@ class MainStore {
 
   routineStarted /*: Routine | null */ = null;
   breakStarted = null;
+  refreshUseEffect = false;
 
   constructor() {
     makeAutoObservable(this);
   }
+
+  changeRefreshUseEffect = () => {
+    this.refreshUseEffect = !this.refreshUseEffect;
+  };
 
   setFirst = (string) => {
     this.first = string;
