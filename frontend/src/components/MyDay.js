@@ -1,24 +1,10 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Row,
-  Button,
-  InputGroup,
-  DropdownButton,
-  Dropdown,
-  Col,
-  Alert,
-} from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
-import AddRoutineModal from './AddRoutineModal';
 import Emoji from './Emoji';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
-  const handleRoutineSelect = (routine) => {
-    setRoutineSelected(routine);
-  };
-
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
     setRoutineSelected(null);
