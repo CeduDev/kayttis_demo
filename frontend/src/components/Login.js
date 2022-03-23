@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { login } from '../services/login';
+import { useMainStore } from '../stores/MainStore';
 import { timer } from '../utils/timer';
 
 const Login = ({ history, setUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setLoginFail] = useState(false);
+  const store = useMainStore();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const Login = ({ history, setUser }) => {
       await login(data);
       setUser(true);
       history.push('/');
+      store.changeRefreshUseEffect();
     } catch (e) {
       timer(setLoginFail);
     }

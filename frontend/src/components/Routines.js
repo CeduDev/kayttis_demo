@@ -6,11 +6,21 @@ import { Row, Col, Button, Container } from 'react-bootstrap';
 import EditRoutineModal from './EditRoutineModal';
 import MyDay from './MyDay';
 import { pad } from '../utils/dates';
+import { deleteRoutine } from '../services/deleteRoutine';
 
 const Routines = observer(() => {
   const store = useMainStore();
   const [r, setR] = useState(null);
   const [routineSelected, setRoutineSelected] = useState(null);
+
+  const handleDelete = async (routine) => {
+    try {
+      await deleteRoutine({ routine_id: routine.id });
+      store.changeRefreshUseEffect();
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
 
   return (
     <>
@@ -53,7 +63,7 @@ const Routines = observer(() => {
                 </Col>
                 <Col className="routineCol">
                   <Button
-                    onClick={() => store.deleteRoutine(routine.title)}
+                    onClick={() => handleDelete(routine)}
                     variant="danger"
                   >
                     Delete
