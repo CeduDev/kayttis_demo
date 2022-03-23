@@ -23,7 +23,7 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
 
   const store = useMainStore();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
       setAlertMessage('');
       const start = startTime.split(':').map((x) => Number(x));
@@ -44,7 +44,7 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       setEndTime('16:00');
       setShow(false);
       try {
-        addRoutine({ routine: routine });
+        await addRoutine({ routine: routine });
       } catch (e) {
         console.log(e.response);
       }
