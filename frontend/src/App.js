@@ -140,7 +140,7 @@ const App = observer(() => {
           endM === now.getMinutes() &&
           activeBreak
         ) {
-          setTitle('moro');
+          setTitle(`your break: ${b.description}, is over, back to work!`);
           try {
             setBreak({ status: false });
           } catch (e) {
@@ -153,7 +153,7 @@ const App = observer(() => {
           endM >= now.getMinutes() &&
           !activeBreak
         ) {
-          setTitle(b.description);
+          setTitle(`time for your break: ${b.description}!`);
           try {
             setBreak({ status: true });
           } catch (e) {
