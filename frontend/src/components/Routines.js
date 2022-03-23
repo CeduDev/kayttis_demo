@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useMainStore } from '../stores/MainStore';
 import AddRoutineModal from './AddRoutineModal';
-import { Row, Col, Button, Container } from 'react-bootstrap';
+import { Row, Col, Button, Container, Alert } from 'react-bootstrap';
 import EditRoutineModal from './EditRoutineModal';
 import MyDay from './MyDay';
 import { pad } from '../utils/dates';
@@ -12,10 +12,15 @@ const Routines = observer(() => {
   const store = useMainStore();
   const [r, setR] = useState(null);
   const [routineSelected, setRoutineSelected] = useState(null);
+  const [deletedRoutines, setDeletedRoutines] = useState([]);
 
   const handleDelete = async (routine) => {
     try {
       await deleteRoutine({ routine_id: routine.id });
+      setDeletedRoutines((old) => [...old, routine]);
+      setTimeout(() => {
+        setDeletedRoutines((old) => old.filter((l) => l !== routine));
+      }, 5000);
       store.changeRefreshUseEffect();
     } catch (e) {
       console.log(e.response);
@@ -95,6 +100,11 @@ const Routines = observer(() => {
             </Row>
           );
         })}
+        {deletedRoutines.map((r) => (
+          <Alert variant="success" className="mb-0 mt-3">
+            Successfully deleted routine {r.title}
+          </Alert>
+        ))}
       </Container>
     </>
   );

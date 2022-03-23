@@ -28,7 +28,7 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
       {mainStore.routineStarted === null && (
         <Row>
           {routineSelected === null ? (
-            <Alert variant="danger">Please select a routine!</Alert>
+            <Alert variant="warning">Please select a routine!</Alert>
           ) : (
             <Alert variant="info">
               You have selected the routine: {routineSelected.title}

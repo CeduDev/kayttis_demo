@@ -21,6 +21,7 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
 
   const [breakAlertMessage, setBreakAlertMessage] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
+  const [addedRoutine, setAddedRoutine] = useState([]);
 
   const store = useMainStore();
 
@@ -48,6 +49,10 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
 
       try {
         await addRoutine({ routine: routine });
+        setAddedRoutine((old) => [...old, routine]);
+        setTimeout(() => {
+          setAddedRoutine((old) => old.filter((l) => l !== routine));
+        }, 5000);
         store.changeRefreshUseEffect();
       } catch (e) {
         console.log(e.response);
@@ -127,6 +132,11 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       <Button variant="primary" onClick={() => setShow(true)}>
         Create new routine
       </Button>
+      {addedRoutine.map((r) => (
+        <Alert variant="success" className="mt-3">
+          Successfully added routine {r.title}
+        </Alert>
+      ))}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create new routine</Modal.Title>
