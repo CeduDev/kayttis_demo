@@ -92,7 +92,7 @@ const App = observer(() => {
   };
 
   useInterval(() => {
-    if (store.routineStarted && !activeBreak) {
+    if (store.routineStarted && !store.activeBreak) {
       const routine = store.routineStarted;
       const now = new Date();
       routine.breaks.forEach((b) => {
@@ -101,6 +101,11 @@ const App = observer(() => {
         const startM = b.start.getMinutes();
         const endM = b.end.getMinutes();
         if (startH === now.getHours() && startM === now.getMinutes()) {
+          try {
+            setActiveBreak({ status: true });
+          } catch (e) {
+            console.log(e.response);
+          }
           setActiveBreak(b);
           setTitle(b.description);
           setOptions({
@@ -111,7 +116,11 @@ const App = observer(() => {
           });
         }
         if (endH === now.getHours() && endM === now.getMinutes()) {
-          setActiveBreak(null);
+          try {
+            setActiveBreak({ status: false });
+          } catch (e) {
+            console.log(e.response);
+          }
           setTitle(b.description);
           setOptions({
             tag: Date.now(),

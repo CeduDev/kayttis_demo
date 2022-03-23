@@ -34,7 +34,7 @@ class MainStore {
   routines = [];
 
   routineStarted /*: Routine | null */ = null;
-  breakStarted = null;
+  activeBreak = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -75,8 +75,8 @@ class MainStore {
     this.routineStarted = null;
   };
 
-  setBreakStarted = async (b) => {
-    this.breakStarted = b;
+  setActiveBreak = async (activeBreak) => {
+    this.activeBreak = activeBreak;
   };
 }
 

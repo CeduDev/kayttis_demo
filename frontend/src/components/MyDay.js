@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
 import { getRoutines } from '../services/getRoutines';
 import { parseISOString } from '../utils/dates';
+import { setActiveRoutine } from '../services/setActiveRoutine';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
   const [showView, setShowView] = useState(-1);
@@ -50,6 +51,7 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
 
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
+    await setActiveRoutine();
     setRoutineSelected(null);
   };
 
