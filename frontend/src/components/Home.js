@@ -71,65 +71,71 @@ const Home = () => {
   return (
     <Container>
       <Row>
-        <h2>
-          Welcome! <Emoji symbol="👋" label="hand_wave" />
-        </h2>
-      </Row>
-      <Row>
-        <p>
-          Continuous logins: <strong>10 days</strong>, which is more than 60% of
-          users in your team <Emoji symbol="💪" label="strong" />.
-        </p>
-      </Row>
-      <Row>
-        <p>
-          Today it's a <Emoji symbol="☀️" label="sun" /> {todaysDay}, maybe try
-          out this cool{' '}
-          <a
-            href="https://www.themuse.com/advice/work-from-home-productivity-schedule"
-            target="_blank"
-            rel="noreferrer"
-          >
-            new routine?
-          </a>
-        </p>
-      </Row>
-      <Row className="test-notification-row mb-1">
-        <Col className="test-notification-col">
-          <Button
-            onClick={handleButtonClick}
-            className="test-notification-button"
-          >
-            Test Notifications
-          </Button>
-          <Notification
-            ignore={ignore}
-            title={title}
-            options={options}
-            notSupported={handleNotSupported}
-            onPermissionGranted={handlePermissionGranted}
-            onPermissionDenied={handlePermissionDenied}
-          />
+        <Col>
+          <Row>
+            <h2>
+              Welcome! <Emoji symbol="👋" label="hand_wave" />
+            </h2>
+          </Row>
+          <Row>
+            <p>
+              Continuous logins: <strong>10 days</strong>, which is more than
+              60% of users in your team <Emoji symbol="💪" label="strong" />.
+            </p>
+          </Row>
+          <Row>
+            <p>
+              Today it's a <Emoji symbol="☀️" label="sun" /> {todaysDay}, maybe
+              try out this cool{' '}
+              <a
+                href="https://www.themuse.com/advice/work-from-home-productivity-schedule"
+                target="_blank"
+                rel="noreferrer"
+              >
+                new routine?
+              </a>
+            </p>
+          </Row>
+          <Row className="test-notification-row mb-1">
+            <Col className="test-notification-col">
+              <Button
+                onClick={handleButtonClick}
+                className="test-notification-button"
+              >
+                Test Notifications
+              </Button>
+              <Notification
+                ignore={ignore}
+                title={title}
+                options={options}
+                notSupported={handleNotSupported}
+                onPermissionGranted={handlePermissionGranted}
+                onPermissionDenied={handlePermissionDenied}
+              />
+            </Col>
+            <Col className="ps-0">
+              <OverlayTrigger
+                placement="bottom"
+                overlay={(props) => (
+                  <Tooltip {...props}>
+                    <span className="tool-tip-info">
+                      If notifications aren’t working, make sure that you have
+                      allowed them in your computer settings
+                    </span>
+                  </Tooltip>
+                )}
+              >
+                <Button variant="outline-success" className="tool-tip">
+                  ?
+                </Button>
+              </OverlayTrigger>
+            </Col>
+          </Row>
         </Col>
-        <Col className="ps-0">
-          <OverlayTrigger
-            placement="bottom"
-            overlay={(props) => (
-              <Tooltip {...props}>
-                <span className="tool-tip-info">
-                  If notifications aren’t working, make sure that you have
-                  allowed them in your computer settings
-                </span>
-              </Tooltip>
-            )}
-          >
-            <Button variant="outline-success" className="tool-tip">
-              ?
-            </Button>
-          </OverlayTrigger>
+        <Col>
+          <Stats />
         </Col>
       </Row>
-      <Stats />
     </Container>
   );
 };
