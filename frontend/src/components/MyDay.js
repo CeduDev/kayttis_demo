@@ -4,18 +4,22 @@ import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
 import { pad } from '../utils/dates';
-import { setActiveRoutine } from '../services/setActiveRoutine';
+import {
+  setActiveRoutine,
+  stopActiveRoutine,
+} from '../services/setActiveRoutine';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
   const mainStore = useMainStore();
 
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
-    await setActiveRoutine();
+    await setActiveRoutine({ id: routineSelected.id });
     setRoutineSelected(null);
   };
 
-  const stopDay = () => {
+  const stopDay = async () => {
+    await stopActiveRoutine({ id: mainStore.routineStarted.id });
     mainStore.clearRoutineStarted();
   };
 

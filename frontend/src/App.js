@@ -79,6 +79,7 @@ const App = observer(() => {
             ];
           }
           const routine = {
+            id: ro.id,
             title: r.title,
             start: parseISOString(r.start),
             end: parseISOString(r.end),
@@ -91,7 +92,6 @@ const App = observer(() => {
         e.response ? console.log(e.response) : console.log(e);
       }
     };
-
     getData();
   }, [store, store.refreshUseEffect]);
 
