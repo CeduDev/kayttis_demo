@@ -45,10 +45,6 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
     getData();
   }, [mainStore]);
 
-  const handleRoutineSelect = (routine) => {
-    setRoutineSelected(routine);
-  };
-
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
     setRoutineSelected(null);
