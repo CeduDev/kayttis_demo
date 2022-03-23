@@ -3,6 +3,7 @@ import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
+import { pad } from '../utils/dates';
 import {
   setActiveRoutine,
   stopActiveRoutine,

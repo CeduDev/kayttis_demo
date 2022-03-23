@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { addRoutine } from '../services/addRoutine';
+import { pad } from '../utils/dates';
 
 const AddRoutineModal = observer(({ routine, setRoutine }) => {
   const [show, setShow] = useState(false);
@@ -32,19 +33,22 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       const endDate = new Date();
       startDate.setHours(start[0], start[1]);
       endDate.setHours(end[0], end[1]);
+
       const routine = {
         title: title,
         start: startDate,
         end: endDate,
         breaks: breaks,
       };
-      store.addRoutine(routine);
+
       setTitle('');
       setStartTime('08:00');
       setEndTime('16:00');
       setShow(false);
+
       try {
         await addRoutine({ routine: routine });
+        store.changeRefreshUseEffect();
       } catch (e) {
         console.log(e.response);
       }
@@ -90,13 +94,6 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
         setBreakAlertMessage('End time missing');
       }
     }
-  };
-
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
   };
 
   useEffect(() => {
