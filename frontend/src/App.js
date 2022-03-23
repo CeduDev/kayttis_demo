@@ -13,6 +13,7 @@ import { observer } from 'mobx-react-lite';
 import Notification from 'react-web-notification';
 import { getRoutines } from './services/getRoutines';
 import { parseISOString } from './utils/dates';
+import { getActiveRoutine } from './services/setActiveRoutine';
 
 const App = observer(() => {
   const store = useMainStore();
@@ -63,6 +64,7 @@ const App = observer(() => {
     const getData = async () => {
       try {
         const res = await getRoutines();
+        const activeRoutine = await getActiveRoutine();
         await store.deleteAllRoutines();
 
         res.data.forEach(async (ro) => {
@@ -85,7 +87,10 @@ const App = observer(() => {
             end: parseISOString(r.end),
             breaks: resBreaks,
           };
-
+          if (ro.id === activeRoutine.data.routine_id) {
+            store.setRoutineStarted(routine);
+            console.lof('je');
+          }
           store.addRoutine(routine);
         });
       } catch (e) {

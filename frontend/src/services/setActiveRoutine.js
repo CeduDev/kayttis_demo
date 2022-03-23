@@ -8,3 +8,7 @@ export const setActiveRoutine = async (id) => {
 export const stopActiveRoutine = async (id) => {
   return await axios.post('/api/routines/stopActiveRoutine', id);
 };
+
+export const getActiveRoutine = async () => {
+  return await axios.get('/api/routines/getActiveRoutine');
+};
