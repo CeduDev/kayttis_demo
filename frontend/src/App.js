@@ -11,6 +11,8 @@ import { logout } from './services/logout';
 import { useInterval } from './utils/timer';
 import { observer } from 'mobx-react-lite';
 import Notification from 'react-web-notification';
+import { getRoutines } from './services/getRoutines';
+import { parseISOString } from './utils/dates';
 
 const App = observer(() => {
   const store = useMainStore();
@@ -48,40 +50,6 @@ const App = observer(() => {
     getAuth();
   }, [history, user]);
 
-  useEffect(() => {
-    const endDate = new Date();
-    const startDate = new Date();
-
-    let brakes = ['', '', ''];
-
-    startDate.setHours(8, 0);
-    endDate.setHours(16, 0);
-    store.addRoutine({
-      title: 'Monday',
-      start: startDate,
-      end: endDate,
-      breaks: brakes.map((b, idx) => {
-        const start = new Date();
-        const end = new Date();
-        switch (idx) {
-          case 0:
-            start.setHours(9, 0);
-            end.setHours(9, 15);
-            return { description: 'Coffee', start: start, end: end };
-          case 1:
-            start.setHours(11, 30);
-            end.setHours(12, 0);
-            return { description: 'Lunch', start: start, end: end };
-          default:
-            start.setHours(14, 0);
-            end.setHours(14, 15);
-            return { description: 'Walk', start: start, end: end };
-        }
-      }),
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleLogout = async () => {
     try {
       await logout();
@@ -90,6 +58,43 @@ const App = observer(() => {
       console.log('täh? not possible');
     }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        console.log('a');
+        const res = await getRoutines();
+        await store.deleteAllRoutines();
+
+        res.data.forEach(async (ro) => {
+          const r = JSON.parse(ro.json_string);
+          let resBreaks = [];
+          for await (const b of r.breaks) {
+            resBreaks = [
+              ...resBreaks,
+              {
+                description: b.description,
+                start: parseISOString(b.start),
+                end: parseISOString(b.end),
+              },
+            ];
+          }
+          const routine = {
+            title: r.title,
+            start: parseISOString(r.start),
+            end: parseISOString(r.end),
+            breaks: resBreaks,
+          };
+
+          store.addRoutine(routine);
+        });
+      } catch (e) {
+        e.response ? console.log(e.response) : console.log(e);
+      }
+    };
+
+    getData();
+  }, [store.refreshUseEffect]);
 
   useInterval(() => {
     if (store.routineStarted && !store.activeBreak) {
