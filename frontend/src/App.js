@@ -11,6 +11,8 @@ import { logout } from './services/logout';
 import { useInterval } from './utils/timer';
 import { observer } from 'mobx-react-lite';
 import Notification from 'react-web-notification';
+import { getRoutines } from './services/getRoutines';
+import { parseISOString } from './utils/dates';
 
 const App = observer(() => {
   const store = useMainStore();
@@ -90,6 +92,43 @@ const App = observer(() => {
       console.log('täh? not possible');
     }
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        console.log('a');
+        const res = await getRoutines();
+        await store.deleteAllRoutines();
+
+        res.data.forEach(async (ro) => {
+          const r = JSON.parse(ro.json_string);
+          let resBreaks = [];
+          for await (const b of r.breaks) {
+            resBreaks = [
+              ...resBreaks,
+              {
+                description: b.description,
+                start: parseISOString(b.start),
+                end: parseISOString(b.end),
+              },
+            ];
+          }
+          const routine = {
+            id: ro.id,
+            title: r.title,
+            start: parseISOString(r.start),
+            end: parseISOString(r.end),
+            breaks: resBreaks,
+          };
+
+          store.addRoutine(routine);
+        });
+      } catch (e) {
+        e.response ? console.log(e.response) : console.log(e);
+      }
+    };
+    getData();
+  }, [store, store.refreshUseEffect]);
 
   useInterval(() => {
     if (store.routineStarted && !store.activeBreak) {

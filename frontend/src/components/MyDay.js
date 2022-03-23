@@ -1,61 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
-import { getRoutines } from '../services/getRoutines';
-import { parseISOString } from '../utils/dates';
-import { setActiveRoutine } from '../services/setActiveRoutine';
+import {
+  setActiveRoutine,
+  stopActiveRoutine,
+} from '../services/setActiveRoutine';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
-  const [showView, setShowView] = useState(-1);
   const mainStore = useMainStore();
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const res = await getRoutines();
-        await mainStore.deleteAllRoutines();
-
-        res.data.forEach(async (ro) => {
-          const r = JSON.parse(ro.json_string);
-          let resBreaks = [];
-          for await (const b of r.breaks) {
-            resBreaks = [
-              ...resBreaks,
-              {
-                description: b.description,
-                start: parseISOString(b.start),
-                end: parseISOString(b.end),
-              },
-            ];
-          }
-          const routine = {
-            title: r.title,
-            start: parseISOString(r.start),
-            end: parseISOString(r.end),
-            breaks: resBreaks,
-          };
-
-          mainStore.addRoutine(routine);
-        });
-        setShowView(1);
-      } catch (e) {
-        e.response ? console.log(e.response) : console.log(e);
-        setShowView(0);
-      }
-    };
-
-    getData();
-  }, [mainStore]);
 
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
-    await setActiveRoutine();
+    await setActiveRoutine({ id: routineSelected.id });
     setRoutineSelected(null);
   };
 
-  const stopDay = () => {
+  const stopDay = async () => {
+    await stopActiveRoutine({ id: mainStore.routineStarted.id });
     mainStore.clearRoutineStarted();
   };
 
@@ -65,21 +28,6 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
     }
     return toPad;
   };
-  if (showView === -1)
-    return (
-      <div className="flex top-level-component">
-        <h2 className="align-self-center text-align-center">Loading...</h2>
-      </div>
-    );
-
-  if (showView === 0)
-    return (
-      <div className="flex top-level-component">
-        <h2 className="align-self-center text-align-center">
-          Errors occured, please try again!
-        </h2>
-      </div>
-    );
 
   return (
     <Container>
