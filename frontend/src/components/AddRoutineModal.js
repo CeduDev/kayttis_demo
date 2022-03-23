@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
+import { addRoutine } from '../services/addRoutine';
 
 const AddRoutineModal = observer(({ routine, setRoutine }) => {
   const [show, setShow] = useState(false);
@@ -31,16 +32,22 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
       const endDate = new Date();
       startDate.setHours(start[0], start[1]);
       endDate.setHours(end[0], end[1]);
-      store.addRoutine({
+      const routine = {
         title: title,
         start: startDate,
         end: endDate,
         breaks: breaks,
-      });
+      };
+      store.addRoutine(routine);
       setTitle('');
       setStartTime('08:00');
       setEndTime('16:00');
       setShow(false);
+      try {
+        addRoutine({ routine: routine });
+      } catch (e) {
+        console.log(e.response);
+      }
     } else {
       if (title === '') {
         setAlertMessage('Routine name missing');
