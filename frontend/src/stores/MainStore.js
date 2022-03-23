@@ -34,6 +34,7 @@ class MainStore {
   routines = [];
 
   routineStarted /*: Routine | null */ = null;
+  activeBreak = null;
   breakStarted = null;
   refreshUseEffect = false;
 
@@ -80,8 +81,8 @@ class MainStore {
     this.routineStarted = null;
   };
 
-  setBreakStarted = async (b) => {
-    this.breakStarted = b;
+  setActiveBreak = async (activeBreak) => {
+    this.activeBreak = activeBreak;
   };
 }
 

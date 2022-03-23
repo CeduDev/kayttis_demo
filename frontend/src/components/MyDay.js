@@ -4,17 +4,26 @@ import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
 import { pad } from '../utils/dates';
+import { setActiveRoutine } from '../services/setActiveRoutine';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
   const mainStore = useMainStore();
 
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
+    await setActiveRoutine();
     setRoutineSelected(null);
   };
 
   const stopDay = () => {
     mainStore.clearRoutineStarted();
+  };
+
+  const pad = (toPad) => {
+    if (toPad < 10) {
+      return `0${toPad}`;
+    }
+    return toPad;
   };
 
   return (
