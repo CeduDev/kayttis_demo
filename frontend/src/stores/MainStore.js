@@ -34,7 +34,7 @@ class MainStore {
   routines = [];
 
   routineStarted /*: Routine | null */ = null;
-  activeBreak = null;
+  activeBreak = false;
   breakStarted = null;
   refreshUseEffect = false;
 
