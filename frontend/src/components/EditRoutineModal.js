@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
+import { editRoutine } from '../services/editRoutine';
 import { useMainStore } from '../stores/MainStore';
 import { pad } from '../utils/dates';
 
@@ -59,7 +60,7 @@ const EditRoutineModal = observer(({ routine }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (title !== '' && startTime !== '' && endTime !== '' && !showAlert) {
       setAlertMessage('');
       const start = startTime.split(':').map((x) => Number(x));
@@ -68,14 +69,24 @@ const EditRoutineModal = observer(({ routine }) => {
       const endDate = new Date();
       startDate.setHours(start[0], start[1]);
       endDate.setHours(end[0], end[1]);
-      store.editRoutine(routine.title, {
-        title: title,
-        start: startDate,
-        end: endDate,
-        breaks: breaks,
-      });
+
+      const data = {
+        routine_id: routine.id,
+        routine: {
+          title: title,
+          start: startDate,
+          end: endDate,
+          breaks: breaks,
+        },
+      };
 
       setShow(false);
+      try {
+        await editRoutine(data);
+        store.changeRefreshUseEffect();
+      } catch (e) {
+        console.log(e.response);
+      }
     } else {
       if (title === '') {
         setAlertMessage('Routine name missing');
