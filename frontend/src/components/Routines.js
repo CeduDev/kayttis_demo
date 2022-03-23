@@ -5,18 +5,13 @@ import AddRoutineModal from './AddRoutineModal';
 import { Row, Col, Button, Container } from 'react-bootstrap';
 import EditRoutineModal from './EditRoutineModal';
 import MyDay from './MyDay';
+import { pad } from '../utils/dates';
 
 const Routines = observer(() => {
   const store = useMainStore();
   const [r, setR] = useState(null);
   const [routineSelected, setRoutineSelected] = useState(null);
 
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
-  };
   return (
     <>
       <Container className="px-0">

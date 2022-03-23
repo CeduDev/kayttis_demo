@@ -2,6 +2,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
+import { pad } from '../utils/dates';
 
 const EditRoutineModal = observer(({ routine }) => {
   const store = useMainStore();
@@ -10,13 +11,6 @@ const EditRoutineModal = observer(({ routine }) => {
 
   const [breakAlertMessage, setBreakAlertMessage] = useState('');
   const [alertMessage, setAlertMessage] = useState('');
-
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
-  };
 
   const [title, setTitle] = useState(routine.title);
   const [startTime, setStartTime] = useState(

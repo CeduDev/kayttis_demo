@@ -62,7 +62,6 @@ const App = observer(() => {
   useEffect(() => {
     const getData = async () => {
       try {
-        console.log('a');
         const res = await getRoutines();
         await store.deleteAllRoutines();
 
@@ -94,7 +93,7 @@ const App = observer(() => {
     };
 
     getData();
-  }, [store.refreshUseEffect]);
+  }, [store, store.refreshUseEffect]);
 
   useInterval(() => {
     if (store.routineStarted && !activeBreak) {

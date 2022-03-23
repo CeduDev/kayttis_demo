@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Modal, Row, Col, Alert, Dropdown } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { addRoutine } from '../services/addRoutine';
+import { pad } from '../utils/dates';
 
 const AddRoutineModal = observer(({ routine, setRoutine }) => {
   const [show, setShow] = useState(false);
@@ -93,13 +94,6 @@ const AddRoutineModal = observer(({ routine, setRoutine }) => {
         setBreakAlertMessage('End time missing');
       }
     }
-  };
-
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
   };
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
 import Emoji from './Emoji';
+import { pad } from '../utils/dates';
 
 const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
   const mainStore = useMainStore();
@@ -14,13 +15,6 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
 
   const stopDay = () => {
     mainStore.clearRoutineStarted();
-  };
-
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
   };
 
   return (
