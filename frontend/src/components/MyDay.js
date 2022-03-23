@@ -1,26 +1,10 @@
-import React, { useState } from 'react';
-import {
-  Container,
-  Row,
-  Button,
-  InputGroup,
-  DropdownButton,
-  Dropdown,
-  Col,
-  Alert,
-} from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Button, Alert } from 'react-bootstrap';
 import { useMainStore } from '../stores/MainStore';
 import { observer } from 'mobx-react-lite';
-import AddRoutineModal from './AddRoutineModal';
 import Emoji from './Emoji';
 
-const MyDay = observer(() => {
-  const [routineSelected, setRoutineSelected] = useState(null);
-
-  const handleRoutineSelect = (routine) => {
-    setRoutineSelected(routine);
-  };
-
+const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
   const startDay = async () => {
     await mainStore.setRoutineStarted(routineSelected);
     setRoutineSelected(null);
@@ -41,34 +25,6 @@ const MyDay = observer(() => {
 
   return (
     <Container>
-      <Row className="mb-3">
-        <Col xs="auto" sm="auto">
-          <InputGroup>
-            <DropdownButton
-              title="Use existing routine"
-              drop="down"
-              disabled={mainStore.routineStarted !== null}
-            >
-              {mainStore.routines.length > 0 ? (
-                mainStore.routines.map((routine) => (
-                  <Dropdown.Item
-                    key={routine.title}
-                    as="button"
-                    onClick={() => handleRoutineSelect(routine)}
-                  >
-                    {routine.title}
-                  </Dropdown.Item>
-                ))
-              ) : (
-                <Dropdown.Item>You do not have any routines</Dropdown.Item>
-              )}
-            </DropdownButton>
-          </InputGroup>
-        </Col>
-        <Col xs="auto" sm="auto">
-          <AddRoutineModal />
-        </Col>
-      </Row>
       {mainStore.routineStarted === null && (
         <Row>
           {routineSelected === null ? (

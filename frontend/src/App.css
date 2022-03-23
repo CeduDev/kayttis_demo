@@ -111,3 +111,11 @@ body {
 .tool-tip-info {
   font-size: 1.1rem;
 }
+.routineCol {
+  max-width: min-content;
+  padding: 0.5rem;
+}
+
+.routineColLarge {
+  margin: auto;
+}
