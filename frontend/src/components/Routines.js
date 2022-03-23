@@ -37,9 +37,9 @@ const Routines = observer(() => {
       </Container>
       <Container className="mt-3">
         <AddRoutineModal routine={r} setRoutine={setR} />
-        {store.routines.map((routine) => {
+        {store.routines.map((routine, index) => {
           return (
-            <Row className="routineDiv">
+            <Row className="routineDiv" key={index}>
               <Row>
                 <Col className="routineColLarge">
                   <h1>{routine.title}</h1>
@@ -84,7 +84,10 @@ const Routines = observer(() => {
                     <ol>
                       {routine.breaks.map((b, idx) => {
                         return (
-                          <li style={{ marginLeft: '2rem' }} key={idx}>
+                          <li
+                            style={{ marginLeft: '2rem' }}
+                            key={`${b.description}-${index}`}
+                          >
                             {`${b.description}, ${pad(
                               b.start.getHours()
                             )}:${pad(b.start.getMinutes())}-${pad(

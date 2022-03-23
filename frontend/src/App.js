@@ -13,17 +13,17 @@ import { observer } from 'mobx-react-lite';
 import Notification from 'react-web-notification';
 import { getRoutines } from './services/getRoutines';
 import { parseISOString } from './utils/dates';
+import { getActiveRoutine } from './services/setActiveRoutine';
+import { setBreak } from './services/setActiveBreak';
 
 const App = observer(() => {
   const store = useMainStore();
   const history = useHistory();
   const [user, setUser] = useState(false);
   const [showView, setShowView] = useState(0);
-  const [activeBreak, setActiveBreak] = useState(null);
 
-  const [ignore, setIgnore] = useState(false);
+  const [ignore, setIgnore] = useState(true);
   const [title, setTitle] = useState('');
-  const [options, setOptions] = useState({});
 
   const handlePermissionGranted = () => {
     setIgnore(false);
@@ -63,11 +63,20 @@ const App = observer(() => {
     const getData = async () => {
       try {
         const res = await getRoutines();
+        const activeRoutine = await getActiveRoutine();
+        const activeId = activeRoutine.data[0]?.routine_id;
+        if (activeId) {
+          const activeBreak = activeRoutine.data[0]?.active_break;
+          setIgnore(activeBreak);
+        }
+
         await store.deleteAllRoutines();
 
         res.data.forEach(async (ro) => {
           const r = JSON.parse(ro.json_string);
           let resBreaks = [];
+          const now = new Date();
+
           for await (const b of r.breaks) {
             resBreaks = [
               ...resBreaks,
@@ -78,6 +87,8 @@ const App = observer(() => {
               },
             ];
           }
+          let breakStatus = false;
+
           const routine = {
             id: ro.id,
             title: r.title,
@@ -85,7 +96,24 @@ const App = observer(() => {
             end: parseISOString(r.end),
             breaks: resBreaks,
           };
-
+          if (activeId && ro.id === activeId) {
+            store.setRoutineStarted(routine);
+            for await (const b of ro.breaks) {
+              const startH = parseISOString(b.start).getHours();
+              const endH = parseISOString(b.end).getHours();
+              const startM = parseISOString(b.start).getMinutes();
+              const endM = parseISOString(b.end).getMinutes();
+              if (
+                startH <= now.getHours() &&
+                startM <= now.getMinutes() &&
+                endH >= now.getHours() &&
+                endM >= now.getMinutes()
+              ) {
+                breakStatus = true;
+              }
+            }
+          }
+          setBreak({ status: breakStatus });
           store.addRoutine(routine);
         });
       } catch (e) {
@@ -95,8 +123,11 @@ const App = observer(() => {
     getData();
   }, [store, store.refreshUseEffect]);
 
-  useInterval(() => {
-    if (store.routineStarted && !store.activeBreak) {
+  useInterval(async () => {
+    if (store.routineStarted) {
+      const active = await getActiveRoutine();
+      const activeBreak = active.data[0]?.active_break;
+      console.log(activeBreak);
       const routine = store.routineStarted;
       const now = new Date();
       routine.breaks.forEach((b) => {
@@ -104,34 +135,30 @@ const App = observer(() => {
         const endH = b.end.getHours();
         const startM = b.start.getMinutes();
         const endM = b.end.getMinutes();
-        if (startH === now.getHours() && startM === now.getMinutes()) {
+        if (
+          endH === now.getHours() &&
+          endM === now.getMinutes() &&
+          activeBreak
+        ) {
+          setTitle(`your break: ${b.description}, is over, back to work!`);
           try {
-            setActiveBreak({ status: true });
+            setBreak({ status: false });
           } catch (e) {
             console.log(e.response);
           }
-          setActiveBreak(b);
-          setTitle(b.description);
-          setOptions({
-            tag: Date.now(),
-            body: `Time for your break!`,
-            lang: 'eng',
-            dir: 'ltr',
-          });
-        }
-        if (endH === now.getHours() && endM === now.getMinutes()) {
+        } else if (
+          startH <= now.getHours() &&
+          startM <= now.getMinutes() &&
+          endH >= now.getHours() &&
+          endM >= now.getMinutes() &&
+          !activeBreak
+        ) {
+          setTitle(`time for your break: ${b.description}!`);
           try {
-            setActiveBreak({ status: false });
+            setBreak({ status: true });
           } catch (e) {
             console.log(e.response);
           }
-          setTitle(b.description);
-          setOptions({
-            tag: Date.now(),
-            body: `Your break is over, get back to work!`,
-            lang: 'eng',
-            dir: 'ltr',
-          });
         }
       });
     }
@@ -181,9 +208,8 @@ const App = observer(() => {
         </>
       )}
       <Notification
-        ignore={ignore}
+        ignore={false}
         title={title}
-        options={options}
         notSupported={handleNotSupported}
         onPermissionGranted={handlePermissionGranted}
         onPermissionDenied={handlePermissionDenied}
