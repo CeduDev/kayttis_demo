@@ -23,13 +23,6 @@ const MyDay = observer(({ routineSelected, setRoutineSelected }) => {
     mainStore.clearRoutineStarted();
   };
 
-  const pad = (toPad) => {
-    if (toPad < 10) {
-      return `0${toPad}`;
-    }
-    return toPad;
-  };
-
   return (
     <Container>
       {mainStore.routineStarted === null && (
